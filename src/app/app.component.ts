@@ -1,4 +1,5 @@
 import { OnInit } from '@angular/core';
+import { AfterContentInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -9,9 +10,11 @@ import { ValidatorService } from './services/validator.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterContentInit {
 
   public passwordType: string = 'password';
+
+  public isRemebered: boolean = false;
 
   public loginInfoControl: FormGroup;
 
@@ -20,30 +23,44 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.loginInfoControl = new FormGroup({
       email: new FormControl('', [Validators.required, this.validatorService.emailValidator]),
-      password: new FormControl('', [Validators.required, this.validatorService.passwordValidator])
+      password: new FormControl('', [Validators.required, this.validatorService.passwordValidator]),
     });
+  }
+
+  ngAfterContentInit() {
+    if (localStorage.getItem('log')) {
+      const userInfo = JSON.parse(localStorage.getItem('log'));
+      this.loginInfoControl.controls.email.setValue(userInfo.email);
+      this.loginInfoControl.controls.password.setValue(userInfo.password);
+      this.isRemebered = true;
+    }
   }
 
   showingPassword(visibilityInput: HTMLInputElement): void {
     visibilityInput.checked ? this.passwordType = 'text' : this.passwordType = 'password';
   }
 
-  onSubmit(emailTarget: HTMLInputElement, passwordTarget: HTMLInputElement, remembranceTarget: HTMLInputElement): void {
+  onSubmit(remembranceTarget: HTMLInputElement): void {
 
     if (this.loginInfoControl.controls.password.valid && this.loginInfoControl.controls.email.valid) {
 
       const userInfo = {
-        email: emailTarget.value,
-        password: passwordTarget.value
+        email: this.loginInfoControl.controls.email.value,
+        password: this.loginInfoControl.controls.password.value
       }
 
       if (remembranceTarget.checked) {
-        localStorage.setItem('log', JSON.stringify(userInfo))
-      }
+        localStorage.setItem('log', JSON.stringify(userInfo));
+      } else localStorage.setItem('log', '');
 
       alert(`email: ${userInfo.email}\npassword: ${userInfo.password}`);
-      emailTarget.value = '';
-      passwordTarget.value = '';
+      this.loginInfoControl.controls.email.setValue('');
+      this.loginInfoControl.controls.password.setValue('');
+      this.loginInfoControl.controls.email.markAsUntouched();
+      this.loginInfoControl.controls.password.markAsUntouched();
+    }
+    else {
+      alert('Please, enter all fields correctly');
     }
   }
 }
