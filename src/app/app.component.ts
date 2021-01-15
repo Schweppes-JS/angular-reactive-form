@@ -11,7 +11,9 @@ import { ValidatorService } from './services/validator.service';
 })
 export class AppComponent implements OnInit {
 
-  loginInfoControl: FormGroup;
+  public passwordType: string = 'password';
+
+  public loginInfoControl: FormGroup;
 
   constructor(private validatorService: ValidatorService) { }
 
@@ -22,9 +24,24 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onSubmit(emailTarget: HTMLInputElement, passwordTarget: HTMLInputElement): void {
+  showingPassword(visibilityInput: HTMLInputElement): void {
+    visibilityInput.checked ? this.passwordType = 'text' : this.passwordType = 'password';
+  }
+
+  onSubmit(emailTarget: HTMLInputElement, passwordTarget: HTMLInputElement, remembranceTarget: HTMLInputElement): void {
+
     if (this.loginInfoControl.controls.password.valid && this.loginInfoControl.controls.email.valid) {
-      alert(`email: ${emailTarget.value}\npassword: ${passwordTarget.value}`);
+
+      const userInfo = {
+        email: emailTarget.value,
+        password: passwordTarget.value
+      }
+
+      if (remembranceTarget.checked) {
+        localStorage.setItem('log', JSON.stringify(userInfo))
+      }
+
+      alert(`email: ${userInfo.email}\npassword: ${userInfo.password}`);
       emailTarget.value = '';
       passwordTarget.value = '';
     }

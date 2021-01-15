@@ -47,17 +47,35 @@
 }
 
 .form__checkbox-container {
+  position: relative;
   display: flex;
   align-items: center;
 }
 
-.checkbox-container__checkbox {
+.checkbox-container__checkbox-remembrance {
   margin: 0;
   transform: scale(1.22);
 }
 
-.checkbox-container__label {
+.checkbox-container__remembrance-label {
   margin-left: 5px;
+}
+
+.checkbox-container__checkbox-visibility {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right: 0;
+  margin: 0;
+  z-index: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkbox-container__visibility-icon {
+  transform: scale(1.22);
+  position: absolute;
+  right: 0;
 }
 
 .highlighted {

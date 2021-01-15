@@ -30,7 +30,7 @@
   }}</label>
 
   <input
-    type="text"
+    [type]="passwordType"
     class="form__input"
     placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
     name="password"
@@ -39,12 +39,41 @@
   >
 
   <div class="form__checkbox-container">
-    <input class="checkbox-container__checkbox" type="checkbox" name="remembrance">
-    <label class="checkbox-container__label" for="remembrance">Remeber me</label>
+
+    <input
+      class="checkbox-container__checkbox-remembrance"
+      type="checkbox"
+      name="remembrance"
+      #remembranceInput
+    >
+    
+    <label
+      class="checkbox-container__remembrance-label"
+      for="remembrance"
+    >Remeber me</label>
+    
+    <input
+      class="checkbox-container__checkbox-visibility"
+      type="checkbox"
+      name="visibility"
+      (change)="showingPassword(visibilityInput)"
+      #visibilityInput
+    >
+    
+    <label
+      class="checkbox-container__visibility-icon"
+      for="visibility"
+    >
+      <i class="far" [ngClass]="{
+        'fa-eye': !visibilityInput.checked,
+        'fa-eye-slash': visibilityInput.checked}"
+      ></i>
+    </label>
+    
   </div>
 
   <button
-    (click)="onSubmit(emailInput, passwordInput)"
+    (click)="onSubmit(emailInput, passwordInput, remembranceInput)"
     class="form__button"
   >Log in</button>
   
