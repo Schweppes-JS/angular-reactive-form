@@ -1,4 +1,4 @@
-:host {
+.main-container__form {
   width: 400px;
   height: 250px;
   display: flex;
@@ -58,4 +58,8 @@
 
 .checkbox-container__label {
   margin-left: 5px;
+}
+
+.highlighted {
+  color: rgba(192, 0, 0, 0.774);
 }

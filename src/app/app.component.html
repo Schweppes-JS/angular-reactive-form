@@ -1,9 +1,51 @@
-<label class="form__label">Email Address</label>
-<input class="form__input" type="text" placeholder="example@address.com" [formControl]="emailControl">
-<label class="form__label">Password</label>
-<input class="form__input" type="text" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;">
-<div class="form__checkbox-container">
-  <input class="checkbox-container__checkbox" type="checkbox" name="remembrance">
-  <label class="checkbox-container__label" for="remembrance">Remeber me</label>
-</div>
-<button class="form__button">Log in</button>
+<form  class="main-container__form" [formGroup]="loginInfoControl">
+
+  <label
+  class="form__label"
+  for="email"
+  [ngClass]="{highlighted: (!loginInfoControl.controls.email.valid && loginInfoControl.controls.email.touched)}"
+>{{
+  (!loginInfoControl.controls.email.valid && loginInfoControl.controls.email.touched) ? 
+  "Plese, input corect part followed before and after '@'" :
+  "Email Address"
+}}</label>
+
+  <input
+    type="email"
+    class="form__input"
+    placeholder="example@address.com"
+    name="email"
+    formControlName="email"
+    #emailInput
+  >
+
+  <label
+    class="form__label"
+    for="password"
+    [ngClass]="{highlighted: (!loginInfoControl.controls.password.valid && loginInfoControl.controls.password.touched)}"
+  >{{
+    (!loginInfoControl.controls.password.valid && loginInfoControl.controls.password.touched) ? 
+    'Plese, include minimum eight characters, at least one letter and one number' :
+    'Password'
+  }}</label>
+
+  <input
+    type="text"
+    class="form__input"
+    placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
+    name="password"
+    formControlName="password"
+    #passwordInput
+  >
+
+  <div class="form__checkbox-container">
+    <input class="checkbox-container__checkbox" type="checkbox" name="remembrance">
+    <label class="checkbox-container__label" for="remembrance">Remeber me</label>
+  </div>
+
+  <button
+    (click)="onSubmit(emailInput, passwordInput)"
+    class="form__button"
+  >Log in</button>
+  
+</form>

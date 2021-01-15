@@ -1,6 +1,8 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { ValidatorService } from './services/validator.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +10,23 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  emailControl: FormControl;
-  passwordControl: FormControl;
+
+  loginInfoControl: FormGroup;
+
+  constructor(private validatorService: ValidatorService) { }
 
   ngOnInit() {
-    this.emailControl = new FormControl();
-    this.passwordControl = new FormControl();
+    this.loginInfoControl = new FormGroup({
+      email: new FormControl('', [Validators.required, this.validatorService.emailValidator]),
+      password: new FormControl('', [Validators.required, this.validatorService.passwordValidator])
+    });
+  }
+
+  onSubmit(emailTarget: HTMLInputElement, passwordTarget: HTMLInputElement): void {
+    if (this.loginInfoControl.controls.password.valid && this.loginInfoControl.controls.email.valid) {
+      alert(`email: ${emailTarget.value}\npassword: ${passwordTarget.value}`);
+      emailTarget.value = '';
+      passwordTarget.value = '';
+    }
   }
 }
