@@ -1,0 +1,8 @@
+<i
+  class="far"
+  [ngClass]="{
+    'fa-eye': !currentState,
+    'fa-eye-slash': currentState
+  }"
+  (click)="toggleVisibility()"
+></i>

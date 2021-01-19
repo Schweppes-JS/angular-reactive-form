@@ -5,10 +5,12 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ValidatorService } from './services/validator.service';
+import { VisibilityCheckboxComponent } from './visibility-checkbox/visibility-checkbox.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VisibilityCheckboxComponent
   ],
   imports: [
     BrowserModule,
